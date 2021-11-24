@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -5,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Movies.Helper.Mapper;
 using Movies.Models.DataBase;
 using System;
 using System.Collections.Generic;
@@ -27,7 +29,14 @@ namespace Movies
         {
 
 
-            services.AddDbContext<ApplicationDbContext>(opts => opts.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>
+                (opts => opts.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+
+            //Auto Mapper
+            services.AddAutoMapper(map => map.AddProfile(new DomainPorfile()));
+
+
             services.AddControllersWithViews();
         }
 

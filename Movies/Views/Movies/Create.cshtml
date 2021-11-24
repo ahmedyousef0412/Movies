@@ -12,7 +12,7 @@
     <div class="row justify-content-between">
 
         <div class="col-md-4">
-            <form method="post" asp-action="Create">
+            <form method="post" asp-action="Create" enctype="multipart/form-data">
 
                 <div class="form-group">
 
@@ -27,7 +27,7 @@
                 <div class="form-group">
 
                     <label class="text-muted" asp-for="GenreId"></label>
-                    <select class="form-control" asp-items="@(new SelectList(Model.Genres , "Id" ,"GenreName"))">
+                    <select class="form-control" asp-for="GenreId" asp-items="@(new SelectList(Model.Genres , "Id" ,"GenreName"))">
 
                         <option></option>
                     </select>
@@ -37,7 +37,7 @@
                 <div class="form-group w-50">
 
                     <label class="text-muted" asp-for="Year"></label>
-                    <input type="number" asp-for="Year" value="" class="form-control" />
+                    <input type="number" asp-for="Year" value="@(Model.Year > 0?Model.Year: string.Empty)" class="form-control" />
                     <span asp-validation-for="Year" class="text-danger"></span>
                 </div>
 
@@ -45,7 +45,7 @@
                 <div class="form-group w-50">
 
                     <label class="text-muted" asp-for="Rate"></label>
-                    <input type="number" asp-for="Rate" value="" class="form-control" />
+                    <input type="number" asp-for="Rate" value="@(Model.Rate > 0 ?Model.Rate : string.Empty )" class="form-control" />
                     <span asp-validation-for="Rate" class="text-danger"></span>
                 </div>
 
@@ -59,7 +59,7 @@
 
                 <div class="custom-file">
 
-                    <input type="file" asp-for="Poster" class="custom-file-input" accept=".jpg .png" />
+                    <input type="file" asp-for="Poster" class="custom-file-input" accept=".jpg , .png" />
                     <label class="custom-file-label" asp-for="Poster"></label>
                     <span asp-validation-for="Poster" class="text-danger"></span>
                 </div>
