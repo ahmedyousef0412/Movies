@@ -17,7 +17,7 @@ namespace Movies.Models.Entity
 
         [Required]
         [StringLength(255)]
-        [Display (Name = = "Genre")]
+        
         public string GenreName { get; set; }
     }
 }
