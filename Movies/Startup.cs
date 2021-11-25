@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Movies.Helper.Mapper;
 using Movies.Models.DataBase;
+using NToastNotify;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,15 @@ namespace Movies
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+           // Toastr Notify
 
+            services.AddMvc().AddNToastNotifyToastr(new ToastrOptions()
+            {
+                ProgressBar  = true,
+                PositionClass =ToastPositions.TopRight,
+                PreventDuplicates = true,
+                CloseButton = true
+            });
 
             services.AddDbContext<ApplicationDbContext>
                 (opts => opts.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

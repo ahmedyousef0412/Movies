@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Movies.Models.DataBase;
 using Movies.Models.Entity;
 using Movies.Models.VM;
+using NToastNotify;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,11 +19,13 @@ namespace Movies.Controllers
         private readonly List<string> _allowedExtenstions = new() { ".jpg", ".png" };
         private readonly long _maxAllowPosterSize = 1048576;
         private readonly IMapper map;
+        private readonly IToastNotification toastNotification;
 
-        public MoviesController(ApplicationDbContext _context, IMapper map)
+        public MoviesController(ApplicationDbContext _context, IMapper map , IToastNotification toastNotification )
         {
             context = _context;
             this.map = map;
+            this.toastNotification = toastNotification;
         }
         public async Task<IActionResult> Index()
         {
@@ -115,6 +118,7 @@ namespace Movies.Controllers
 
             context.SaveChanges();
 
+            toastNotification.AddSuccessToastMessage("Movie Create Successfuly");
 
             return RedirectToAction(nameof(Index));
         }
@@ -225,6 +229,9 @@ namespace Movies.Controllers
             
 
             context.SaveChanges();
+
+            toastNotification.AddSuccessToastMessage("Movie Updated Successfuly");
+
             return RedirectToAction(nameof(Index));
         }
 
