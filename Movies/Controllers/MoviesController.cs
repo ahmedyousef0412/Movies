@@ -26,7 +26,7 @@ namespace Movies.Controllers
         public async Task<IActionResult> Index()
         {
 
-            var movie = await context.Movies.ToListAsync();
+            var movie = await context.Movies.Include(g =>g.Genre).ToListAsync();
             return View(movie);
         }
 
@@ -56,8 +56,6 @@ namespace Movies.Controllers
             }
 
 
-
-
             var files = Request.Form.Files;
             if (!files.Any())
             {
@@ -68,6 +66,7 @@ namespace Movies.Controllers
 
 
             var poster = files.FirstOrDefault();
+
             var extensionAllowed = new List<string>  {".jpg",".png"};
 
             if (!extensionAllowed.Contains(Path.GetExtension(poster.FileName).ToLower()))
@@ -89,9 +88,17 @@ namespace Movies.Controllers
 
             await poster.CopyToAsync(dateStream);
 
-            var movie = map.Map<Movie>(model);
+             //var movie = map.Map<Movie>(model);
 
-           
+            var movie = new Movie
+            {
+                Title = model.Title,
+                Year = model.Year,
+                Rate = model.Rate,
+                GenreId = model.GenreId,
+                Poster = dateStream.ToArray(),
+                StoryLine = model.StoryLine
+            };
 
             context.Movies.Add(movie);
             context.SaveChanges();

@@ -88,3 +88,14 @@ input[type=number] {
 .field-validation-error {
     font-size: 14px;
 }
+.poster{
+    min-height:250px;
+    background-position:center;
+    background-size:100%;
+    transition:all 0.3s ease-in-out;
+}
+.poster:hover{
+   
+    background-size: 120%;
+    transition: all 0.3s ease-in-out;
+}
