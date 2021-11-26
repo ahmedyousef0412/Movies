@@ -30,7 +30,10 @@ namespace Movies.Controllers
         public async Task<IActionResult> Index()
         {
             
-            var movie = await context.Movies.Include(g =>g.Genre).ToListAsync();
+            var movie = await context.Movies
+                .Include(g =>g.Genre)
+                .OrderByDescending(m =>m.Rate)
+                .ToListAsync();
             return View(movie);
         }
 
@@ -235,6 +238,42 @@ namespace Movies.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+
+
+        public async Task<IActionResult> Details(int ? id)
+        {
+
+            if (id == null)
+                return BadRequest();
+            //Note[Include can't come with Find So i Use SingleOrDefaultAsync]
+            var movie = await context.Movies.
+                Include(g =>g.Genre)
+                .SingleOrDefaultAsync(m => m.Id ==id);
+
+            if (movie == null)
+                return NotFound();
+
+            return View(movie);
+        }
+
+
+
+        
+        public async Task<IActionResult> Delete(int? id)
+        {
+
+            if (id == null)
+                return BadRequest();
+            var movie = await context.Movies.FindAsync(id);
+
+            if (movie == null)
+                return NotFound();
+
+            context.Movies.Remove(movie);
+            context.SaveChanges();
+
+            return Ok();
+        }
 
     }
 }

@@ -79,7 +79,7 @@
 
 
 
-                                            <a asp-action="Delete" asp-route-id="@movie.Id" class="btn btn-danger">
+                                            <a href="javascript:" class="btn btn-danger js-delete" data-id="@movie.Id">
                                                 <i class="bi bi-trash"></i>
                                                 Delete
                                             </a>
@@ -104,54 +104,81 @@
 
 
 
+@section Scripts
+{
+<script>
 
-@*<ul>
-        @foreach (var movie in Model)
-        {
-            <li>@movie.Title</li>
-        }
-    </ul>*@
+    $(document).ready(function () {
 
 
-@*<table class="table">
-         <thead class="thead-dark">
-             <tr>
-                 <th>Title</th>
-                 <th>Year</th>
-                 <th>Genre</th>
-                 <th>Rate</th>
-                 <th>StoryLine</th>
-                 <th>Edit</th>
-                 <th>Delete</th>
+        $(".js-delete").on('click', function () {
+
+            var btn = $(this);
+
+            //console.log(btn.data("id"));
+
+            bootbox.confirm({
+                message: "Are you sure you want to Delete this Movie?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-danger'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-outline-secondary'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+
+                        $.ajax({
+                            url: "/Movies/Delete/" + btn.data("id"),
+
+                            success: function () {
 
 
-             </tr>
-         </thead>
+                                var movieContainer = btn.parents(".col-12");
+                               // btn.parents(".col-12").fadeOut();
+                                movieContainer.addClass("animate__animated animate__zoomOut");
 
-         <tbody>
-             @foreach (var movie in Model)
-             {
-             <tr>
-                 <td>@movie.Title</td>
+                                setTimeout(function () {
+                                    movieContainer.remove();
+                                },1000)
 
-                 <td>@movie.Year</td>
+                                toastr.success("Movie Deleted Successfuly");
+                            },
 
-                 <td>@movie.Genre.GenreName</td>
+                            error: function () {
 
-                 <td>@movie.Rate</td>
-
-                 <td>@movie.StoryLine</td>
-
-                 <td><a asp-action="Edit" class="btn btn-primary">Edit</a></td>
-
-                 <td><a asp-action="Delete" class="btn btn-danger">Delete</a></td>
+                                toastr.error("Something went Wrong");
+                            }
 
 
+                        });
+                    }
+                }
 
+            });
 
+        });
+        
 
-             </tr>
-             }
-         </tbody>
+    });
+    $(function () {
+        $('.js-basic-example').DataTable({
+            responsive: true,
+            paging: true,
+            pageLength: 5,
+            bSort: true,
+            bFilter: true,
+            bLengthChange: true,
+            bInfo: true,
+            lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "All"]],
 
-    </table>*@
+        });
+    });
+
+</script>
+} 
+

@@ -1,0 +1,65 @@
+﻿
+@model Movies.Models.Entity.Movie
+
+@{
+    ViewData["Title"] = Model.Title;
+}
+
+
+
+<div class="row justify-content-sm-between mt-60-px">
+    <div class="col-md-3">
+
+        <img src="data:image/*;base64,@(Convert.ToBase64String(Model.Poster))" class="img-thumbnail" alt="@Model.Title" />
+    </div>
+
+    <div class="col-md-7">
+
+        <div class="d-flex justify-content-between mb-3">
+            <h3>@Model.Title</h3>
+            <span>
+                <i class="bi bi-star-fill text-warning "></i>
+                <span class="text-muted">
+                    @Model.Rate.ToString("0.0")
+                </span>
+
+
+            </span>
+
+        </div>
+
+
+        <span class="text-muted mr-3 ">
+            <i class="bi bi-calendar-week "></i>
+            @Model.Year
+
+        </span>
+
+        <span class="text-muted">
+            <i class="bi bi-film"></i>
+
+            @Model.Genre.GenreName
+
+        </span>
+
+
+
+
+
+        <p class="text-justify">@Model.StoryLine</p>
+
+
+
+        <div class="text-muted mt-4">
+            <a asp-action="Index" class="bi bi-x btn btn-secondary ">Cancle</a>
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="bi bi-pencil btn btn-primary">Edit</a>
+        </div>
+
+    </div>
+
+
+    
+    
+
+
+</div>

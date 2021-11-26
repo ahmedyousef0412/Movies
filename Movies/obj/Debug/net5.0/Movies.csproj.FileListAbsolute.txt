@@ -439,3 +439,4 @@ E:\Test Demo\Movies\Movies\bin\Debug\net5.0\Newtonsoft.Json.Bson.dll
 E:\Test Demo\Movies\Movies\bin\Debug\net5.0\NToastNotify.Views.dll
 E:\Test Demo\Movies\Movies\bin\Debug\net5.0\NToastNotify.dll
 E:\Test Demo\Movies\Movies\obj\Debug\net5.0\Movies.MvcApplicationPartsAssemblyInfo.cs
+E:\Test Demo\Movies\Movies\obj\Debug\net5.0\Razor\Views\Movies\Details.cshtml.g.cs
